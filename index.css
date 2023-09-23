@@ -1,0 +1,98 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --alturaHeaderSuperior: 50px;
+    font-size: 16px;
+}
+
+header {
+    border: 1px solid black;
+}
+
+#header-superior {
+    display: flex;
+    flex-direction: row;
+}
+
+#header-superior > img {
+    width: 50px;
+    height: var(--alturaHeaderSuperior);
+}
+
+h1 {
+    text-align: center;
+    width: 100%;
+    height: var(--alturaHeaderSuperior);
+    font-size: 1.5rem;
+    position: absolute;
+    left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+nav {
+    display: flex;
+    justify-content: flex-end;
+}
+
+nav a {
+    margin: 15px;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: rgb(255, 0, 255);
+}
+
+#banner {
+    height: 200px;
+    background-image: url(/img/imagenLoca.webp);
+    background-size: cover;
+    display: flex;
+    align-items: center;
+}
+
+#banner > p {
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+}
+
+footer > div {
+    display: flex;
+    justify-content: flex-end;
+}
+
+footer > div > a {
+    margin: 10px;
+}
+
+footer > div > a > img {
+    width: 50px;
+}
+
+footer > a {
+    text-align: center;
+}
+
+footer > p {
+    margin-top: 10px;
+    text-align: center;
+}
+
+@media only screen and (max-width: 500px) {
+    nav {
+        flex-direction: column;
+    }    
+}
