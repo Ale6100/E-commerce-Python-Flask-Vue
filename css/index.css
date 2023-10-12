@@ -95,7 +95,7 @@ footer > p {
     text-align: center;
 }
 
-/* Information.html */
+/* information.html */
 .info-h1 {
     text-align: center;
     margin: 10px 0px;
@@ -184,6 +184,7 @@ footer > p {
 }
 
 @media only screen and (max-width: 768px) {
+    /* information.html */
     .card-info {
         width: 300px;
     }
@@ -199,9 +200,8 @@ footer > p {
     }    
 }
 
-
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 576px) {
     nav {
         flex-direction: column;
-    }    
+    }
 }
