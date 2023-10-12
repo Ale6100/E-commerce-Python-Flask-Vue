@@ -13,17 +13,17 @@ header {
     border: 1px solid black;
 }
 
-#header-superior {
+.header-superior {
     display: flex;
     flex-direction: row;
 }
 
-#header-superior > img {
+.header-superior > img {
     width: 50px;
     height: var(--alturaHeaderSuperior);
 }
 
-h1 {
+.index-h1 {
     text-align: center;
     width: 100%;
     height: var(--alturaHeaderSuperior);
@@ -48,6 +48,10 @@ nav a {
 
 nav a:hover {
     color: rgb(255, 0, 255);
+}
+
+main {
+    padding: 0px 5px;
 }
 
 #banner {
@@ -90,6 +94,111 @@ footer > p {
     margin-top: 10px;
     text-align: center;
 }
+
+/* Information.html */
+.info-h1 {
+    text-align: center;
+    margin: 10px 0px;
+}
+
+.info-h1 + p {
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+#section-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info-centrado {
+    text-align: center;
+}
+
+.card-info {
+    padding: 5px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 600px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 2px;
+}
+
+.info-img {
+    max-width: 400px;
+    max-height: 400px;
+}
+
+.info-img img {
+    margin: 5px 0px;
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 400px;    
+    border-radius: 2px;
+}
+
+.info-details { 
+    display: flex;
+    width: 100%;
+    flex-direction: row; 
+    justify-content: space-evenly;
+}
+
+.info-review {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-size: 1rem;
+    width: 66%;
+}
+
+.info-more-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.info-more-details p {
+    text-align: center;
+}
+
+.score-verde {
+    color: rgb(0, 128, 0);
+}
+
+.score-amarillo {
+    color: rgb(255, 255, 0);
+}
+
+.score-rojo {
+    color: rgb(255, 0, 0);
+}
+
+.info-negrita {
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 768px) {
+    .card-info {
+        width: 300px;
+    }
+
+    .info-details { 
+        flex-direction: column;
+        width: 100%;
+        justify-content: space-evenly;
+    }
+
+    .info-review {
+        width: 100%;
+    }    
+}
+
 
 @media only screen and (max-width: 500px) {
     nav {
