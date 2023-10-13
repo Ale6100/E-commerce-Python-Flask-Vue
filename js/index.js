@@ -51,3 +51,31 @@ if (sectionInfo) {
             sectionInfo.innerHTML = "<p class='info-centrado'>Error, por favor intente de nuevo más tarde</p>"
         })
 }
+
+const formContact = document.querySelector(".form-contact")
+
+if (formContact) {
+    formContact.addEventListener("submit", e => {
+        e.preventDefault()
+
+        const form = e.target
+
+        if (form instanceof HTMLFormElement) { // Se ejecuta si form es un formulario
+            const name = form.nameUser.value // Tomamos los valores de los inputs, según el atributo name
+            const body = form.body.value
+
+            if (!name || !body) { // Verificamos que los vampos sean válidos
+                alert("Por favor llena todos los campos")
+                return
+            }
+
+            if (typeof name !== "string" || typeof body !== "string") {
+                alert("Por favor llena todos los campos")
+                return
+            }
+
+            alert(`Mensaje enviado exitósamente \nGracias ${name}`) // Se envía un mensaje de envío exitoso y se resetean los campos
+            form.reset()
+        }
+    })
+}

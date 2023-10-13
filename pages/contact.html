@@ -20,7 +20,27 @@
     </header>
 
     <main>
+        <div>
+            <h1 class="contact-h1">Formulario de contacto</h1>
 
+            <p>¿Tienes alguna consulta o deseas informar algún error? Contáctate con nosotros en el siguiente formulario</p>
+        </div>
+        
+        <section class="w-100">
+            <form class="form-contact w-100 my-0 mx-auto p-1 border border-2 border-dark rounded-1 d-flex flex-column align-items-center">
+                <div class="p-1 d-flex flex-column border border-1 border-dark rounded-1 w-100">
+                    <label class="fw-bolder" for="name-contact">Nombre</label>
+                    <input type="text" id="name-contact" name="nameUser" placeholder="Ingresa tu nombre" required>                    
+                </div>
+
+                <div class="my-3 mx-0 p-1 d-flex flex-column border border-1 border-dark rounded-1 w-100">
+                    <label class="fw-bolder" for="body-contact">Cuerpo del mensaje</label>
+                    <textarea id="body-contact" name="body" placeholder="Ingresa tu mensaje" required></textarea>                    
+                </div>
+
+                <button class="btn btn-primary w-100 rounded-1" type="submit">Enviar</button>
+            </form>
+        </section>        
     </main>
 
     <footer>

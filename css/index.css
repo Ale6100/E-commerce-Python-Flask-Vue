@@ -183,6 +183,21 @@ footer > p {
     font-weight: bold;
 }
 
+/* contact.html */
+.contact-h1 {
+    text-align: center;
+    margin: 10px 0px;
+}
+
+.contact-h1 + p {
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.form-contact {
+    max-width: 768px;
+}
+
 @media only screen and (max-width: 768px) {
     /* information.html */
     .card-info {
