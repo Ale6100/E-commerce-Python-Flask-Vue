@@ -27,7 +27,7 @@ if (sectionInfo) {
             data.forEach(review => {
                 sectionInfo.innerHTML += `
                     <div class="card-info">
-                        <h2 class="info-titulo">${review.title}</h2>
+                        <h2 class="info-titulo">${review.title} - ${review.country}</h2>
                         
                         <div class="info-img">
                             <img src="${review.image}"></img>
