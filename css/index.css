@@ -198,6 +198,35 @@ footer > p {
     max-width: 768px;
 }
 
+/* aboutUs-h1 */
+
+.aboutUs-h1 {
+    text-align: center;
+    margin: 10px 0px;
+}
+
+.section-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section-info > div {
+    max-width: 400px;
+}
+
+.section-info > div > img {
+    width: 100%;
+    border-radius: 2px;
+}
+
+.section-info > p {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    /* text-align: center; */
+    max-width: 400px;
+}
+
 @media only screen and (max-width: 768px) {
     /* information.html */
     .card-info {
