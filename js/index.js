@@ -26,11 +26,11 @@ if (sectionInfo) {
             sectionInfo.innerHTML = "" // El mensaje de carga se reemplaza por la información cuando llega
             data.forEach(review => {
                 sectionInfo.innerHTML += `
-                    <div class="card-info">
+                    <article class="card-info">
                         <h2 class="info-titulo">${review.title} - ${review.country}</h2>
                         
                         <div class="info-img">
-                            <img src="${review.image}"></img>
+                            <img src="../img/comidas/${review.image}" alt="Image review"></img>
                         </div>
 
                         <div class="info-details">
@@ -42,7 +42,7 @@ if (sectionInfo) {
                                 <p class="info-author">Autor: ${review.author}</p>
                             </div>
                         </div>
-                    </div>
+                    </article>
                 `
             });
         })
