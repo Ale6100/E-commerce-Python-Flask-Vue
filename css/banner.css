@@ -1,5 +1,5 @@
 #banner {
-    margin: 10px;
+    margin-top: 10px;
     margin-bottom: 50px;
     position: relative; 
     background-size: cover;
@@ -18,8 +18,15 @@
     top:50%;
     left:50%;
     transform: translateX(-50%) translateY(-50%);
-    color: rgb(237, 222, 233);
-    text-shadow: 2px 2px rgb(92, 87, 90);
+    color: rgb(0, 0, 0);
+    /* color: rgb(237, 222, 233);
+    text-shadow: 2px 2px rgb(92, 87, 90); */
+}
+
+.divBanner {
+    padding: 0px 10px;
+    background-color: rgba(243, 173, 202, 0.8);
+    
 }
 
 #banner h2 {
@@ -35,12 +42,12 @@
 @media only screen and (max-width: 768px) {
     #banner {
         height: 200px;
-        margin-bottom: 50px;
+        margin-bottom: 10px;
     }
 }
 
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: 576px) {        
     #banner h2 {
-        font-size: 26px;
+        font-size: 1.1rem;
     }
 }
