@@ -21,65 +21,9 @@ body {
     font-family: 'Shippori Mincho B1', serif;
 }
 
-/* header {
-    border: 1px solid black;
-} */
-
-/* .header-superior {
-    display: flex;
-    flex-direction: row;
-} */
-
-/* .header-superior > img {
-    width: 50px;
-    height: var(--alturaHeaderSuperior);
-} */
-
-/* .index-h1 { */
-    /* float: left; */
-    /* text-align: center;
-    width: 100%;
-    height: var(--alturaHeaderSuperior);
-    font-size: 1.5rem;
-    position: absolute;
-    left: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center; */
-/* } */
-
-/* nav {
-    display: flex;
-    justify-content: flex-end;
-}
-
-nav a {
-    margin: 15px;
-    color: rgb(0, 0, 0);
-    text-decoration: none;
-}
-
-nav a:hover {
-    color: rgb(255, 0, 255);
-} */
-
 main {
     padding: 0px 5px;
 }
-
-/* #banner { */
-    /* height: 200px;
-    background-image: url(/img/imagenLoca.webp);
-    background-size: cover;
-    display: flex;
-    align-items: center; */
-/* } */
-
-/* #banner > p {
-    width: 100%;
-    text-align: center;
-    font-size: 2rem;
-} */
 
 .section-index {
     margin-bottom: 20px;
@@ -96,8 +40,6 @@ main {
 
 footer {
     background:#f3adca;
-    /* display: flex;
-    flex-direction: column; */
 }
 
 footer .contenedor {
@@ -122,35 +64,13 @@ footer .contenedor {
     color: #333333;
 }
 
-/* footer > div {
-    display: flex;
-    justify-content: flex-end;
-}
-
-footer > div > a {
-    margin: 10px;
-}
-
-footer > div > a > img {
-    width: 50px;
-}
-
-footer > a {
-    text-align: center;
-}
-
-footer > p {
-    margin-top: 10px;
-    text-align: center;
-} */
-
 /* information.html */
-.info-h1 {
+.info-h2 {
     text-align: center;
     margin: 10px 0px;
 }
 
-.info-h1 + p {
+.info-h2 + p {
     font-size: 1.1rem;
     text-align: center;
 }
@@ -233,12 +153,12 @@ footer > p {
 }
 
 /* contact.html */
-.contact-h1 {
+.contact-h2 {
     text-align: center;
     margin: 10px 0px;
 }
 
-.contact-h1 + p {
+.contact-h2 + p {
     font-size: 1.1rem;
     text-align: center;
 }
@@ -248,29 +168,29 @@ footer > p {
     height: 300px;
 }
 
-/* aboutUs-h1 */
+/* aboutUs.html */
 
-.aboutUs-h1 {
+.aboutUs-h2 {
     text-align: center;
     margin: 10px 0px;
 }
 
-.section-info {
+.section-aboutUs {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.section-info > div {
+.section-aboutUs > div {
     max-width: 400px;
 }
 
-.section-info > div > img {
+.section-aboutUs > div > img {
     width: 100%;
     border-radius: 2px;
 }
 
-.section-info > p {
+.section-aboutUs > p {
     margin-top: 10px;
     font-size: 1.1rem;
     max-width: 400px;

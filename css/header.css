@@ -11,11 +11,11 @@ header {
     border: 1px solid black;
 }
 
-.inedx-div-h1 {
+.index-div-h1 {
   display: flex;
 }
 
-.index-h1 {
+.h1 {
   display: flex;
   align-items: center;
   font-size: 1.5rem;
@@ -77,7 +77,7 @@ header label {
 
 
 @media only screen and (max-width: 768px) {
-    .index-h1 {
+    .h1 {
         font-size: 1.1rem;
     }
 
