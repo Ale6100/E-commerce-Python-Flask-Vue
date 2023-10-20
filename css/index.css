@@ -10,11 +10,11 @@
 }
 
 :root {
-    --alturaHeaderSuperior: 50px;
     font-size: 16px;
 }
 
 body {
+    background-color: #f6e2f2;
     font-family: 'Indie Flower', cursive;
     font-family: 'Pacifico', cursive;
     font-family: 'Pangolin', cursive;

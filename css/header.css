@@ -28,7 +28,7 @@ header label {
     display: none;
 }
 
-#menu-bar {
+.menu-bar {
     display: none;
 }
 
@@ -77,7 +77,7 @@ header label {
     font-weight: bold;
 }
 
-#menu-bar:checked ~.menu {
+.menu-bar:checked ~.menu {
     transform: translateX(0%); 
 }
 
@@ -103,6 +103,17 @@ header label {
         transform: translateX(-100%);
     }
 
+    .menu-bar {
+        display: inline-block;
+        appearance: none;
+        background-image: url("../img/menu.svg");
+        background-size: cover;
+        width: 30px;
+        height: 30px;
+        margin: auto 5px auto 0px;
+        cursor: pointer;
+    }
+    
     .menu ul {
         height: 400px;
         flex-direction: column;

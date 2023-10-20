@@ -15,18 +15,15 @@
 
 #banner .contenedor {
     position: absolute; 
-    top:50%;
-    left:50%;
+    top: 50%;
+    left: 50%;
     transform: translateX(-50%) translateY(-50%);
-    color: rgb(0, 0, 0);
-    /* color: rgb(237, 222, 233);
-    text-shadow: 2px 2px rgb(92, 87, 90); */
+    color: rgb(246, 233, 242);
+    text-shadow: 2px 2px rgb(92, 87, 90);
 }
 
 .divBanner {
     padding: 0px 10px;
-    background-color: rgba(243, 173, 202, 0.8);
-    
 }
 
 #banner h2 {
