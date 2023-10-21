@@ -26,14 +26,8 @@
     padding: 0px 10px;
 }
 
-#banner h2 {
+#banner p {
     font-size: 2em;
-}
-
-#banner > p {
-    width: 100%;
-    text-align: center;
-    font-size: 2rem;
 }
 
 @media only screen and (max-width: 768px) {
@@ -44,7 +38,11 @@
 }
 
 @media only screen and (max-width: 576px) {        
-    #banner h2 {
+    #banner {
+        height: 150px;
+    }
+    
+    #banner p {
         font-size: 1.1rem;
     }
 }

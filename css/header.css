@@ -11,8 +11,11 @@ header {
     border: 1px solid black;
 }
 
-.index-div-h1 {
+.index-div-h1 a {
     display: flex;
+    height: 100%;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
 }
 
 .h1 {
@@ -22,10 +25,6 @@ header {
     align-items: center;
     font-size: 1.3rem;
     text-align: center;
-}
-
-header label {
-    display: none;
 }
 
 .menu-bar {
