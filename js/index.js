@@ -47,7 +47,6 @@ if (sectionInfo) {
             });
         })
         .catch(err => {
-            console.error(err); //! Quitar esta línea luego
             sectionInfo.innerHTML = "<p class='info-centrado'>Error, por favor intente de nuevo más tarde</p>"
         })
 }
@@ -64,14 +63,8 @@ if (formContact) {
             const name = form.nameUser.value // Tomamos los valores de los inputs, según el atributo name
             const body = form.body.value
 
-            if (!name || !body) { // Verificamos que los vampos sean válidos
-                alert("Por favor llena todos los campos")
-                return
-            }
-
-            if (typeof name !== "string" || typeof body !== "string") {
-                alert("Por favor llena todos los campos")
-                return
+            if (!name || !body) { // Verificamos que los campos sean válidos
+                return alert("Por favor llena todos los campos")
             }
 
             alert(`Mensaje enviado exitósamente \nGracias ${name}`) // Se envía un mensaje de envío exitoso y se resetean los campos
