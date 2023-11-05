@@ -1,0 +1,14 @@
+.contact-h2 {
+    text-align: center;
+    margin: 10px 0px;
+}
+
+.contact-h2 + p {
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.form-contact {
+    max-width: 768px;
+    height: 300px;
+}

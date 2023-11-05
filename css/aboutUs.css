@@ -1,0 +1,25 @@
+.aboutUs-h2 {
+    text-align: center;
+    margin: 10px 0px;
+}
+
+.section-aboutUs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section-aboutUs > div {
+    max-width: 400px;
+}
+
+.section-aboutUs > div > img {
+    width: 100%;
+    border-radius: 2px;
+}
+
+.section-aboutUs > p {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    max-width: 400px;
+}
