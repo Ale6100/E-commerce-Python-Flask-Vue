@@ -63,6 +63,26 @@ h3, h6 {
     text-align: center;
 }
 
+.section-aboutUs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section-aboutUs > div {
+    max-width: 400px;
+}
+
+.section-aboutUs > div > img {
+    width: 100%;
+    border-radius: 2px;
+}
+
+.section-aboutUs > p {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    max-width: 400px;
+}
 
 @media only screen and (max-width: 768px) {
     #banner {
