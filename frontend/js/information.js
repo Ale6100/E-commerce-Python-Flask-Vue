@@ -45,13 +45,22 @@ if (addReview) {
                 const inputReview = document.getElementById("swal-inputReview")
                 const inputScore = document.getElementById("swal-inputScore")
                 const inputAuthor = document.getElementById("swal-inputAuthor")
-                if (inputTitle instanceof HTMLInputElement && inputTitle.value && inputCountry instanceof HTMLInputElement && inputCountry.value && inputImg instanceof HTMLInputElement && inputImg.value && inputReview instanceof HTMLInputElement && inputReview.value && inputScore instanceof HTMLInputElement && inputScore.value && inputAuthor instanceof HTMLInputElement && inputAuthor.value) {
+                
+                const score = parseFloat(inputScore.value)
+
+                if (isNaN(score)) {
+                    return Swal.showValidationMessage('El campo "Calificación" debe ser numérico')
+                } else if (score < 0 || score > 10) {
+                    return Swal.showValidationMessage('El campo "Calificación" debe estar entre 0 y 10')
+                }
+                
+                if (inputTitle instanceof HTMLInputElement && inputTitle.value && inputCountry instanceof HTMLInputElement && inputCountry.value && inputImg instanceof HTMLInputElement && inputImg.value && inputReview instanceof HTMLInputElement && inputReview.value && inputAuthor instanceof HTMLInputElement && inputAuthor.value) {
                     return {
                         title: inputTitle.value,
                         country: inputCountry.value,
                         image: inputImg.value,
                         review: inputReview.value,
-                        score: inputScore.value,
+                        score: score,
                         author: inputAuthor.value
                     }
                 } else {
@@ -63,10 +72,23 @@ if (addReview) {
             confirmButtonText: "Agregar",
         });
         if (value) {
-            //! Acá luego habrá una funcionalidad que agregará la reseña al backend
-            Swal.fire("Reseña agregada exitosamente (en realidad todavía no)");
+            const res = await fetch(`${URL_BACKEND}/api/reviews`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(value)
+            }).then(res => res.json())
+            .catch(() => Swal.fire("Error, por favor inténtalo de nuevo más tarde"))
+
+            if (res.status == 'success') {
+                Swal.fire("Reseña agregada exitosamente");
+            } else {
+                Swal.fire("Error, por favor inténtalo de nuevo más tarde");
+            }
+
             await traerReseñas(sectionInfo)
-        } else {
+        } else if (value === "") {
             Swal.fire("Por favor llena todos los campos");
         }
     })
@@ -87,35 +109,38 @@ const traerReseñas = async (sectionInfo_) => {
         return `<span class='score-${color}'>${score}</span>`
     }
 
-    const formatearFecha = (date) => { // Cambia un formato de fecha de la siguiente forma 2022-12-09T19:18:50.110Z a este 09/12/2022
-        const fecha = new Date(date);
-        return `${fecha.getDate()}/${fecha.getMonth()+1}/${fecha.getFullYear()}`;     
-    }
+    // const data = await fetch('https://65248d31ea560a22a4e9ecde.mockapi.io/reviews').then(res => res.json()) // La información de cada reseña viene de esta API
+    const res = await fetch(`${URL_BACKEND}/api/reviews`).then(res => res.json())
+    .catch(() => sectionInfo_.innerHTML = `<p class="info-centrado">Error, por favor inténtalo de nuevo más tarde<p>`)
 
-    const data = await fetch('https://65248d31ea560a22a4e9ecde.mockapi.io/reviews').then(res => res.json()) // La información de cada reseña viene de esta API
+    if (res.status == 'success') {
+        const data = res.data
 
-    sectionInfo_.innerHTML = "" // El mensaje de carga se reemplaza por la información cuando llega
-    data.forEach(review => {
-        sectionInfo_.innerHTML += `
-            <article class="card-info">
-                <h2 class="info-titulo">${review.title} - ${review.country}</h2>
-                
-                <div class="info-img">
-                    <img src="../img/comidas/${review.image}" alt="Image review"></img>
-                </div>
-
-                <div class="info-details">
-                    <p class="info-review">${review.review}</p>
-
-                    <div class="info-more-details">
-                        <p class="info-score"><span class="info-negrita">Calificación</span>: ${colorearScore(review.score)}/10</p>
-                        <p class="info-date">Fecha de publicación: ${formatearFecha(review.date)}</p>
-                        <p class="info-author">Autor: ${review.author}</p>
+        sectionInfo_.innerHTML = "" // El mensaje de carga se reemplaza por la información cuando llega
+        data.forEach(review => {
+            sectionInfo_.innerHTML += `
+                <article class="card-info">
+                    <h2 class="info-titulo">${review.title} - ${review.country}</h2>
+                    
+                    <div class="info-img">
+                        <img src=${review.image.includes("http") ? review.image : `../img/comidas/${review.image}`} alt="Image review"></img>
                     </div>
-                </div>
-            </article>
-        `
-    });     
+    
+                    <div class="info-details">
+                        <p class="info-review">${review.review}</p>
+    
+                        <div class="info-more-details">
+                            <p class="info-score"><span class="info-negrita">Calificación</span>: ${colorearScore(review.score)}/10</p>
+                            <p class="info-date">Fecha de publicación: ${review.date}</p>
+                            <p class="info-author">Autor: ${review.author}</p>
+                        </div>
+                    </div>
+                </article>
+            `
+        });        
+    } else {
+        sectionInfo_.innerHTML = `<p class="info-centrado">Error, por favor inténtalo de nuevo más tarde<p>`
+    }
 }
 
 if (sectionInfo) {

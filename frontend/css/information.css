@@ -110,11 +110,10 @@
 }
 
 .sweet-alert-custom div {
-    margin: 10px 0px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
-
 
 @media only screen and (max-width: 768px) {
     .card-info {
