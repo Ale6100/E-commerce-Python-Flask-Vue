@@ -13,6 +13,13 @@
     cursor: pointer;
 }
 
+.info-edit-review {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
 .buttonReview:hover {
     background-color: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
@@ -39,6 +46,7 @@
 }
 
 .card-info {
+    position: relative;
     padding: 5px;
     margin-bottom: 30px;
     display: flex;
@@ -47,6 +55,10 @@
     width: 600px;
     border: 1px solid rgb(0, 0, 0);
     border-radius: 2px;
+}
+
+.card-info h2 {
+    font-size: 1.1rem;
 }
 
 .info-img {

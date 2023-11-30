@@ -1,27 +1,11 @@
-## Aclaraciones del Frontend
-Es necesario colocar la URL del backend en el archivo [./frontend/js/general.js](./frontend/js/general.js)
+# Ecommerce con Flask
 
+## Descarga ⬇️
+Si deseas obtener una copia local, descarga el archivo comprimido .zip desde el botón verde "code" o haz click [aquí](https://github.com/Ale6100/codo-a-codo/archive/refs/heads/main.zip)
 
-## Aclaraciones del Backend
-* En [./backend/app.py](./backend/app.py) se encuentra la siguiente línea de código:
+### Pre-requisitos 📋
+Necesitas tener previamente descargado e instalado [Python](https://www.python.org/). El sitio se hizo usando la version 3.12.0
 
-    ```py
-    db = Database(host='localhost', user='root', password='', database='databasesaboreseurolatinos') # Se conecta a la base de datos
-
-    ```
-
-    es necesario colocar tus datos en caso de que esos no sean los correctos
-
-* Para iniciar el backend, colocar en la terminal
-
-    ```
-    cd backend
-    ```
-
-    para posicionarte en esa carpeta. Luego, ejecutar
-
-    ```
-    flask run --debug
-    ```
-
-    para iniciar el servidor backend con Flask
+## Instrucciones
+* [Frontend](./frontend/README.md)
+* [Backend](./backend/README.md)
