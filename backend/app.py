@@ -1,25 +1,32 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 from flask_cors import CORS
-import mysql.connector
-from werkzeug.utils import secure_filename
-import os
-import time
 from datetime import datetime
+from dotenv import load_dotenv
+import os
+import mysql.connector
+
+load_dotenv()
+
+variables_database = {
+    'host': os.getenv('DB_HOST'),
+    'user': os.getenv('DB_USER'),
+    'password':os.getenv('DB_PASSWORD'),
+    'database': os.getenv('DB_DATABASE')
+}
+
+frontends_enabled = [os.getenv('URL_FRONTEND1')]
 
 app = Flask(__name__)
-
-frontends_enabled = ["http://127.0.0.1:5500"]
-
 CORS(app, resources={r"/*": {"origins": frontends_enabled}}) # Permite peticiones desde los frontends de la lista
 
-class Database: # Creamos una clase para iniciar la base de datos
+class Database: # Creamos una clase para iniciar la base de datos y crear las tablas necesarias
     def __init__(self, host, user, password, database):
         self.conn = mysql.connector.connect(
             host = host,
             user = user,
             password = password
         )
-        self.cursor = self.conn.cursor()
+        self.cursor = self.conn.cursor(dictionary=True)
 
         if self.conn.is_connected():
             print("Base de datos conectada")
@@ -48,13 +55,13 @@ class Database: # Creamos una clase para iniciar la base de datos
             date VARCHAR(50) NOT NULL
             )
             ''')
-        self.conn.commit()
+        self.conn.commit()           
 
-        # Cerrar el cursor inicial y abrir uno nuevo con el parámetro dictionary=True
+    def close_connection(self): # Realmente no lo usamos, pero por ahora lo dejamos
         self.cursor.close()
-        self.cursor = self.conn.cursor(dictionary=True)             
+        self.conn.close()
 
-db = Database(host='localhost', user='root', password='superadmin6100', database='databasesaboreseurolatinos') # Se conecta a la base de datos
+db = Database(**variables_database) # Se conecta a la base de datos
 
 class Reviews(): # Creamos esta clase para interactuar con la tabla reviews
     def __init__(self, db: Database): # Se asocia con la base de datos que le pasemos como parámetro
@@ -65,21 +72,34 @@ class Reviews(): # Creamos esta clase para interactuar con la tabla reviews
         reviews = self.db.cursor.fetchall()
         return reviews
     
-    def insert_one(self, title: str, country: str, image: str, review: str, score: int, author: str, date: str): # Inserta un solo registro
+    def insert_one(self, title: str, country: str, image: str, review: str, score: float, author: str, date: str): # Inserta un solo registro
         sql = "INSERT INTO reviews (title, country, image, review, score, author, date) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         values = (title, country, image, review, score, author, date)
         self.db.cursor.execute(sql, values)
         self.db.conn.commit()
         return True
-    
-reviews = Reviews(db)
 
-print(f'Reseñas:\n{reviews.get_all()}')
+    def update_one(self, id: int, incoming_values: dict[str, str | float]): # Actualiza un solo registro                
+        sql = "UPDATE reviews SET "
+        values = []
+        
+        for indice, (key, value) in enumerate(incoming_values.items()):
+            sql += f"{key} = %s"
+            values.append(value)
+            if indice < len(incoming_values) - 1:
+                sql += ", "
+                
+        sql += f" WHERE id = {id}"
+
+        self.db.cursor.execute(sql, values)
+        self.db.conn.commit()
+
+reviews = Reviews(db)
 
 @app.route('/', methods=['GET']) # Una pequeña bienvenida en la ruta raíz
 def index():
     return '''
-    <h1>API del Grupo 7</h1>
+    <h1>API</h1>
     <p>Te damos la bienvenida a la nuestra API. Este es el único endpoint público</p>
     ''', 200
 
@@ -108,3 +128,34 @@ def post_review():
         return jsonify({'status': 'success', 'message': 'Review added'}), 201
     except Exception as e:
         return jsonify({'status': 'error', 'error': f'{e}'}), 500
+
+@app.route('/api/reviews/<int:id>', methods=['PATCH'])
+def update_review(id):
+    try:
+        incoming_values = {
+            'title': request.json.get('title'),
+            'country': request.json.get('country'),
+            'image': request.json.get('image'),
+            'review': request.json.get('review'),
+            'score': request.json.get('score'),
+            'author': request.json.get('author'),
+        }
+
+        if not incoming_values["title"] and not incoming_values["country"] and not incoming_values["image"] and not incoming_values["review"] and not isinstance(incoming_values["score"], (int, float)) and not incoming_values["author"]: # En caso de que no haya enviado nada
+            return jsonify({'status': 'error', 'message': 'Missing data'}), 400
+
+        incoming_values_ = {} # Creo un diccionario con los valores que se van a actualizar
+
+        for indice, (key, value) in enumerate(incoming_values.items()):
+            if value is not None:
+                incoming_values_[key] = value
+
+        reviews.update_one(id, incoming_values_)
+        return jsonify({'status': 'success', 'message': 'Review updated'}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'error': f'{e}'}), 500
+
+
+if __name__ == "__main__":
+    debug = bool(os.environ.get('DEBUG')) # Agarra la variable de entorno DEBUG y la fuerza a convertirse en booleano
+    app.run(debug = debug) # Inicializa Flask en modo debug o no (suponiendo que ejecutamos el script directamente)
