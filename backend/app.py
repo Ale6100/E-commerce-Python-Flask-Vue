@@ -94,7 +94,28 @@ class Reviews(): # Creamos esta clase para interactuar con la tabla reviews
         self.db.cursor.execute(sql, values)
         self.db.conn.commit()
 
+    def delete_one(self, id: int): # Elimina un solo registro
+        sql = f"DELETE FROM reviews WHERE id = {id}"
+        self.db.cursor.execute(sql)
+        self.db.conn.commit()
+
 reviews = Reviews(db)
+
+@app.before_request
+def authenticate_request(): # Implementamos el sistema de autenticación Bearer simple
+    if (request.path == '/' and request.method == 'GET') or request.method == 'OPTIONS':
+        return
+    
+    headers = request.headers.get('Authorization')
+    
+    if headers:
+        headers_list = headers.split(' ')
+        if isinstance(headers_list, list) and len(headers_list) >= 2 and headers_list[0] == 'Bearer' and headers_list[1] == os.getenv('TOKEN_API'):
+            return
+        else:
+            return jsonify({ 'status': 'error', 'error': 'Forbidden'}), 403
+    else:
+        return jsonify({ 'status': 'error', 'error': 'Forbidden'}), 403
 
 @app.route('/', methods=['GET']) # Una pequeña bienvenida en la ruta raíz
 def index():
@@ -155,6 +176,13 @@ def update_review(id):
     except Exception as e:
         return jsonify({'status': 'error', 'error': f'{e}'}), 500
 
+@app.route('/api/reviews/<int:id>', methods=['DELETE'])
+def delete_review(id):
+    try:
+        reviews.delete_one(id)
+        return jsonify({'status': 'success', 'message': 'Review deleted'}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'error': f'{e}'}), 500
 
 if __name__ == "__main__":
     debug = bool(os.environ.get('DEBUG')) # Agarra la variable de entorno DEBUG y la fuerza a convertirse en booleano

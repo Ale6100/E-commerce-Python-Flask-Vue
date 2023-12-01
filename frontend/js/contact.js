@@ -14,7 +14,7 @@ if (formContact) {
                 return alert("Por favor llena todos los campos")
             }
 
-            alert(`Mensaje enviado exitósamente \nGracias ${name}`) // Se envía un mensaje de envío exitoso y se resetean los campos
+            alert(`Mensaje enviado exitosamente \nGracias ${name}`) // Se envía un mensaje de envío exitoso y se resetean los campos
             form.reset()
         }
     })

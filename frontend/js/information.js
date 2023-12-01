@@ -55,11 +55,17 @@ if (addReview) {
                     const author = inputAuthor.value
 
                     if (!title || !country || !image || !review || !author) {
-                        return Swal.showValidationMessage('Por favor llena todos los campos')
+                        return Swal.showValidationMessage({
+                            icon: "error",
+                            title: "Por favor llena todos los campos"
+                        })
                     }
 
                     if (isNaN(score) || score < 0 || score > 10) {
-                        return Swal.showValidationMessage('El campo "Calificación" debe ser un número entre 0 y 10')
+                        return Swal.showValidationMessage({
+                            icon: "error",
+                            title: 'El campo "Calificación" debe ser un número entre 0 y 10'
+                        })
                     }
 
                     return {
@@ -77,22 +83,50 @@ if (addReview) {
             confirmButtonText: "Agregar",
         });
         if (value) {
-            const res = await fetch(`${URL_BACKEND}/api/reviews`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(value)
-            }).then(res => res.json())
-            .catch(() => Swal.fire("Error, por favor inténtalo de nuevo más tarde"))
-
-            if (res.status == 'success') {
-                Swal.fire("Reseña agregada exitósamente");
+            const { value: password } = await Swal.fire({
+                    icon: "info",
+                    title: "Ingresa una contraseña",
+                    input: "password",
+                    inputLabel: "Contraseña",
+                    inputPlaceholder: "****"
+            });
+            
+            if (password == PASSWORD) {
+                const res = await fetch(`${URL_BACKEND}/api/reviews`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${TOKEN_API}`
+                    },
+                    body: JSON.stringify(value)
+                }).then(res => res.json())
+                .catch(() => Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Error, por favor inténtalo de nuevo más tarde"
+                }))
+    
+                if (res.status == 'success') {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Reseña agregada exitosamente",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Error, por favor inténtalo de nuevo más tarde"
+                    });
+                }
+    
+                await traerReseñas(sectionInfo)
             } else {
-                Swal.fire("Error, por favor inténtalo de nuevo más tarde");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Contraseña incorrecta"
+                });
             }
-
-            await traerReseñas(sectionInfo)
         }
     })
 }
@@ -112,7 +146,12 @@ const traerReseñas = async (sectionInfo_) => {
         return `<span class='score-${color}'>${score}</span>`
     }
 
-    const res = await fetch(`${URL_BACKEND}/api/reviews`).then(res => res.json())
+    const res = await fetch(`${URL_BACKEND}/api/reviews`, {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${TOKEN_API}`
+        }
+    }).then(res => res.json())
     .catch(() => sectionInfo_.innerHTML = `<p class="info-centrado">Error, por favor inténtalo de nuevo más tarde<p>`)
 
     if (res.status == 'success') {
@@ -139,12 +178,14 @@ const traerReseñas = async (sectionInfo_) => {
                     </div>
 
                     <i id=icon-edit-${review.id} class="fa-solid fa-pen-to-square info-edit-review"></i>
+                    <i id=icon-delete-${review.id} class="fa-solid fa-trash info-delete-review"></i>
                 </article>
             `
         });
 
         data.forEach((review, index) => {
             const iconEdit = document.getElementById(`icon-edit-${review.id}`)
+            const iconDelete = document.getElementById(`icon-delete-${review.id}`)
 
             if (iconEdit) {
                 iconEdit.addEventListener("click", async () => {
@@ -201,11 +242,17 @@ const traerReseñas = async (sectionInfo_) => {
                                 const author = inputAuthor.value
             
                                 if (!title && !country && !image && !review && !author && !score) {
-                                    return Swal.showValidationMessage('Debes editar al menos un campo')
+                                    return Swal.showValidationMessage({
+                                        icon: "error",
+                                        title: 'Debes editar al menos un campo'
+                                    })
                                 }
             
                                 if (score && (isNaN(score) || score < 0 || score > 10)) {
-                                    return Swal.showValidationMessage('El campo "Calificación" debe ser un número entre 0 y 10')
+                                    return Swal.showValidationMessage({
+                                        icon: "error",
+                                        title: 'El campo "Calificación" debe ser un número entre 0 y 10'
+                                    })
                                 }
             
                                 return {
@@ -224,24 +271,95 @@ const traerReseñas = async (sectionInfo_) => {
                     });
                     
                     if (value) {
-                        const res = await fetch(`${URL_BACKEND}/api/reviews/${review.id}`, {
-                            method: "PATCH",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(value)
-                        }).then(res => res.json())
-                        .catch(() => Swal.fire("Error, por favor inténtalo de nuevo más tarde"))
-            
-                        if (res.status == 'success') {
-                            Swal.fire("Reseña editada exitósamente");
+                        const { value: password } = await Swal.fire({
+                            icon: "info",
+                            title: "Ingresa una contraseña",
+                            input: "password",
+                            inputLabel: "Contraseña",
+                            inputPlaceholder: "****"
+                        });
+
+                        if (password == PASSWORD) {
+                            const res = await fetch(`${URL_BACKEND}/api/reviews/${review.id}`, {
+                                method: "PATCH",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "Authorization": `Bearer ${TOKEN_API}`
+                                },
+                                body: JSON.stringify(value)
+                            }).then(res => res.json())
+                            .catch(() => Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: "Error, por favor inténtalo de nuevo más tarde"
+                            }))
+                
+                            if (res.status == 'success') {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Reseña editada exitosamente"
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error",
+                                    text: "Error, por favor inténtalo de nuevo más tarde"
+                                });
+                            }
+                
+                            await traerReseñas(sectionInfo)
                         } else {
-                            Swal.fire("Error, por favor inténtalo de nuevo más tarde");
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: "Contraseña incorrecta"
+                            });
                         }
-            
-                        await traerReseñas(sectionInfo)
                     }                                        
                 })                
+            }
+
+            if (iconDelete) {
+                iconDelete.addEventListener("click", async () => {
+                    const { value: password, dismiss } = await Swal.fire({
+                        title: "Eliminar reseña",
+                        text: "Ingresa una contraseña",
+                        icon: "warning",
+                        input: "password",
+                        inputPlaceholder: "****",
+                        showCancelButton: true,
+                        cancelButtonText: "Cancelar",
+                        confirmButtonText: "Eliminar",
+                    })
+
+                    if (password == PASSWORD) {
+                        const res = await fetch(`${URL_BACKEND}/api/reviews/${review.id}`, {
+                            method: "DELETE",
+                            headers: {
+                                "Authorization": `Bearer ${TOKEN_API}`
+                            }
+                        }).then(res => res.json())
+                        .catch(() => Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Error, por favor inténtalo de nuevo más tarde"                            
+                        }))
+
+                        if (res.status == 'success') {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Reseña eliminada exitosamente"
+                            });
+                            await traerReseñas(sectionInfo)
+                        }
+                    } else if (!dismiss) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Contraseña incorrecta"
+                        });
+                    }
+                })
             }
         })
     } else {

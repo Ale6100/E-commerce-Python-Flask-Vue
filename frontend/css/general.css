@@ -28,15 +28,14 @@ header {
     border: 1px solid black;
 }
 
-
-.index-div-h1 a {
+.header-div-h1 a {
     display: flex;
     height: 100%;
     color: rgb(0, 0, 0);
     text-decoration: none;
 }
 
-.h1 {
+h1 {
     text-wrap: nowrap;
     height: 100%;
     display: flex;
@@ -49,7 +48,7 @@ header {
     display: none;
 }
 
-.menu {
+header nav {
     top: 60px;
     left: 0;
     transition: all 0.5s;
@@ -64,7 +63,7 @@ header {
     border: none;
 }
 
-.menu ul {
+header nav ul {
     padding: 0px;
     margin: 0px;
     width: 100%;
@@ -73,13 +72,13 @@ header {
     align-items: center;
 }
 
-.menu li {
+header nav li {
     display: block;
     text-decoration: none;
     text-shadow: 2px 2px 1px wheat;
 }
 
-.menu li a {
+header nav li a {
     padding: 4px;
     text-decoration: none;
     text-wrap: nowrap;
@@ -89,12 +88,12 @@ header {
     border-radius: 2px;
 }
 
-.menu a:hover {
+header nav a:hover {
     background: #d4b0bb;
     font-weight: bold;
 }
 
-.menu-bar:checked ~.menu {
+.menu-bar:checked ~ nav {
     transform: translateX(0%); 
 }
 
@@ -106,11 +105,11 @@ footer {
     background:#f3adca;
 }
 
-footer .contenedor {
+footer {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding-bottom: 35px;
+    padding-bottom: 10px;
 }
 
 .copy {
@@ -129,7 +128,7 @@ footer .contenedor {
 }
 
 @media only screen and (max-width: 768px) {
-    .h1 {
+    h1 {
         font-size: 1.1rem;
     }
 
@@ -140,7 +139,7 @@ footer .contenedor {
         cursor: pointer;
     }
 
-    .menu {
+    header nav {
         position: absolute;
         width: 100%;
         height: 100vh;
@@ -160,7 +159,7 @@ footer .contenedor {
         cursor: pointer;
     }
     
-    .menu ul {
+    header nav ul {
         height: 400px;
         flex-direction: column;
         align-items: start;

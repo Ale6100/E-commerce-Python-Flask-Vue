@@ -20,6 +20,13 @@
     cursor: pointer;
 }
 
+.info-delete-review {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    cursor: pointer;    
+}
+
 .buttonReview:hover {
     background-color: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
