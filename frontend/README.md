@@ -1,1 +1,1 @@
-Es necesario colocar la URL del backend en el archivo [./js/general.js](./js/general.js)
+# Frontend con Vue 3 + TypeScript + Vite en desarrollo
