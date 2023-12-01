@@ -1,3 +1,7 @@
+main {
+    margin-bottom: 100px;
+}
+
 .contact-h2 {
     text-align: center;
     margin: 10px 0px;
@@ -10,5 +14,4 @@
 
 .form-contact {
     max-width: 768px;
-    height: 300px;
 }

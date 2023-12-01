@@ -8,29 +8,28 @@
 
 :root {
     font-size: 16px;
+    --ppal-color: rgb(243, 173, 202);
 }
 
 body {
-    background-color: #f6e2f2;
+    background-color: rgb(245, 227, 241);
     font-family: 'Shippori Mincho B1';
 }
 
 header {
-    width: 100%;
-    height: 55px;
-    background: rgb(243, 173, 202);
+    padding: 5px 0px;
+    background: var(--ppal-color);
     position: sticky;
     top: 0;
-    left: 0;
     z-index: 100;
     display: flex;
     justify-content: space-between;
-    border: 1px solid black;
+    border-bottom: 1px solid black;
 }
 
 .header-div-h1 a {
+    height: 55px;
     display: flex;
-    height: 100%;
     color: rgb(0, 0, 0);
     text-decoration: none;
 }
@@ -54,13 +53,8 @@ header nav {
     transition: all 0.5s;
     justify-content: flex-start;
     position: static;
-    width: auto;
-    height: auto;
     transform: translateX(0%);
-    float: right;
     display: flex;
-    background: transparent;
-    border: none;
 }
 
 header nav ul {
@@ -73,9 +67,8 @@ header nav ul {
 }
 
 header nav li {
-    display: block;
-    text-decoration: none;
-    text-shadow: 2px 2px 1px wheat;
+    list-style-type: none;
+    text-shadow: 2px 2px 1px rgb(245, 222, 179);
 }
 
 header nav li a {
@@ -84,12 +77,11 @@ header nav li a {
     text-wrap: nowrap;
     margin: 15px;
     color: rgb(0, 0, 0);
-    text-decoration: none;  
     border-radius: 2px;
 }
 
 header nav a:hover {
-    background: #d4b0bb;
+    background: rgb(212, 175, 186);
     font-weight: bold;
 }
 
@@ -102,29 +94,25 @@ main {
 }
 
 footer {
-    background:#f3adca;
-}
-
-footer {
+    background: var(--ppal-color);
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
-    padding-bottom: 10px;
+    gap: 5px;
+    padding-bottom: 10px;    
 }
 
-.copy {
-    font-size: 20px;
+footer small {
+    text-align: center;
 }
 
 .sociales {
-    font-size: 1em;
-    width: 100%;
     text-align: center;
 }
 
 .sociales a {
-    text-decoration: none;
     color: #333333;
+    height: 32px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -132,18 +120,11 @@ footer {
         font-size: 1.1rem;
     }
 
-    header label {
-        display: inline-block;
-        font-size: 28px;
-        margin: 6px 0;
-        cursor: pointer;
-    }
-
     header nav {
         position: absolute;
         width: 100%;
         height: 100vh;
-        background:#edccda;
+        background: rgb(237, 201, 216);
         border-top: 1px solid white;
         transform: translateX(-100%);
     }
