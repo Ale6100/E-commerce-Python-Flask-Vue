@@ -55,17 +55,11 @@ if (addReview) {
                     const author = inputAuthor.value
 
                     if (!title || !country || !image || !review || !author) {
-                        return Swal.showValidationMessage({
-                            icon: "error",
-                            title: "Por favor llena todos los campos"
-                        })
+                        return Swal.showValidationMessage("Por favor llena todos los campos")
                     }
 
                     if (isNaN(score) || score < 0 || score > 10) {
-                        return Swal.showValidationMessage({
-                            icon: "error",
-                            title: 'El campo "Calificación" debe ser un número entre 0 y 10'
-                        })
+                        return Swal.showValidationMessage('El campo "Calificación" debe ser un número entre 0 y 10')
                     }
 
                     return {
@@ -190,7 +184,7 @@ const traerReseñas = async (sectionInfo_) => {
             if (iconEdit) {
                 iconEdit.addEventListener("click", async () => {
                     const { value } = await Swal.fire({
-                        title: "Editar una reseña",
+                        title: "Editar reseña",
                         html: `
                             <div class="sweet-alert-custom">
                                 <div>
@@ -223,7 +217,6 @@ const traerReseñas = async (sectionInfo_) => {
                                     <input id="swal-inputAuthor-edit" class="swal2-input">
                                 </div>
                             </div>
-                    
                         `,
                         preConfirm: () => {
                             const inputTitle = document.getElementById("swal-inputTitle-edit")
@@ -242,17 +235,11 @@ const traerReseñas = async (sectionInfo_) => {
                                 const author = inputAuthor.value
             
                                 if (!title && !country && !image && !review && !author && !score) {
-                                    return Swal.showValidationMessage({
-                                        icon: "error",
-                                        title: 'Debes editar al menos un campo'
-                                    })
+                                    return Swal.showValidationMessage('Debes editar al menos un campo')
                                 }
             
                                 if (score && (isNaN(score) || score < 0 || score > 10)) {
-                                    return Swal.showValidationMessage({
-                                        icon: "error",
-                                        title: 'El campo "Calificación" debe ser un número entre 0 y 10'
-                                    })
+                                    return Swal.showValidationMessage('El campo "Calificación" debe ser un número entre 0 y 10')
                                 }
             
                                 return {

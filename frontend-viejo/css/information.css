@@ -85,7 +85,6 @@
 .info-details { 
     display: flex;
     width: 100%;
-    flex-direction: row; 
     justify-content: space-evenly;
 }
 
@@ -141,8 +140,6 @@
 
     .info-details { 
         flex-direction: column;
-        width: 100%;
-        justify-content: space-evenly;
     }
 
     .info-review {
