@@ -1,19 +1,19 @@
 ### Instalación (en windows) 🔧
-Crea un entorno virtual con el comando
+Posicionado en la carpeta [backend](./), crea un entorno virtual con el comando
 
-```
+```bash
 py -3 -m venv .venv
 ```
 
 Luego actívalo con el comando
 
-```
+```bash
 .venv\Scripts\activate
 ```
 
 A continuación, instala las dependencias con el comando
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
@@ -36,14 +36,16 @@ Para ambos métodos, recuerda siempre tener activado el entorno virtual antes de
 
 ### Método 1:
 * Inicia el servidor web Flask con el comando:
-    ```
+    ```bash
     flask run
     ```
 
 * o de la siguiente manera si deseas iniciarlo en modo de depuración:
-    ```
+    ```bash
     flask run --debug
     ```
 
 ### Método 2
 * Inicia el servidor web Flask ejecutando el script [app.py](./app.py) desde tu entorno de desarrollo. Si se inicia en modo depuración o no, dependerá del valor de la variable de entorno `DEBUG`
+
+Asegúrate de que la parte frontend esté ejecutándose

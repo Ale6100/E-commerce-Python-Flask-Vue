@@ -72,14 +72,17 @@ class Reviews(): # Creamos esta clase para interactuar con la tabla reviews
         reviews = self.db.cursor.fetchall()
         return reviews
     
-    def insert_one(self, title: str, country: str, image: str, review: str, score: float, author: str, date: str): # Inserta un solo registro
+    def insert_one(self, title: str, country: str, image: str, review: str, score: float, author: str, date: str): # Inserta un solo registro y lo retorna
         sql = "INSERT INTO reviews (title, country, image, review, score, author, date) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         values = (title, country, image, review, score, author, date)
         self.db.cursor.execute(sql, values)
         self.db.conn.commit()
-        return True
 
-    def update_one(self, id: int, incoming_values: dict[str, str | float]): # Actualiza un solo registro                
+        self.db.cursor.execute("SELECT * FROM reviews WHERE id = LAST_INSERT_ID()")
+        new_review = self.db.cursor.fetchone()
+        return new_review
+
+    def update_one(self, id: int, incoming_values: dict[str, str | float]): # Actualiza un solo registro y lo retorna             
         sql = "UPDATE reviews SET "
         values = []
         
@@ -93,6 +96,10 @@ class Reviews(): # Creamos esta clase para interactuar con la tabla reviews
 
         self.db.cursor.execute(sql, values)
         self.db.conn.commit()
+
+        self.db.cursor.execute(f"SELECT * FROM reviews WHERE id = {id}")
+        new_review = self.db.cursor.fetchone()
+        return new_review
 
     def delete_one(self, id: int): # Elimina un solo registro
         sql = f"DELETE FROM reviews WHERE id = {id}"
@@ -145,8 +152,14 @@ def post_review():
         if not title or not country or not image or not review or not isinstance(score, (int, float)) or not author:
             return jsonify({'status': 'error', 'message': 'Missing data'}), 400
 
-        reviews.insert_one(title, country, image, review, score, author, date)
-        return jsonify({'status': 'success', 'message': 'Review added'}), 201
+        if len(title) > 50 or len(author) > 50:
+            return jsonify({'status': 'error', 'message': 'Author and title must not exceed 50 characters'}), 400
+
+        if len(image) > 255 or len(review) > 255:
+            return jsonify({'status': 'error', 'message': 'Image and review must not exceed 255 characters'}), 400
+
+        new_review = reviews.insert_one(title, country, image, review, score, author, date)
+        return jsonify({'status': 'success', 'message': 'Review added', 'data': new_review}), 201
     except Exception as e:
         return jsonify({'status': 'error', 'error': f'{e}'}), 500
 
@@ -171,8 +184,8 @@ def update_review(id):
             if value is not None:
                 incoming_values_[key] = value
 
-        reviews.update_one(id, incoming_values_)
-        return jsonify({'status': 'success', 'message': 'Review updated'}), 200
+        new_review = reviews.update_one(id, incoming_values_)
+        return jsonify({'status': 'success', 'message': 'Review updated', 'data': new_review}), 200
     except Exception as e:
         return jsonify({'status': 'error', 'error': f'{e}'}), 500
 

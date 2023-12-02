@@ -55,17 +55,19 @@ if (addReview) {
                     const author = inputAuthor.value
 
                     if (!title || !country || !image || !review || !author) {
-                        return Swal.showValidationMessage({
-                            icon: "error",
-                            title: "Por favor llena todos los campos"
-                        })
+                        return Swal.showValidationMessage("Por favor llena todos los campos")
                     }
 
                     if (isNaN(score) || score < 0 || score > 10) {
-                        return Swal.showValidationMessage({
-                            icon: "error",
-                            title: 'El campo "Calificación" debe ser un número entre 0 y 10'
-                        })
+                        return Swal.showValidationMessage('El campo "Calificación" debe ser un número entre 0 y 10')
+                    }
+
+                    if (title.length > 50 || author.length > 50) {
+                        return Swal.showValidationMessage('Los campos "Título" y "Autor" no pueden tener más de 50 caracteres')
+                    }
+
+                    if (image.length > 255 || review.length > 255) {
+                        return Swal.showValidationMessage('Los campos "URL imagen" y "Reseña" no pueden tener más de 255 caracteres')
                     }
 
                     return {
@@ -92,24 +94,35 @@ if (addReview) {
             });
             
             if (password == PASSWORD) {
-                const res = await fetch(`${URL_BACKEND}/api/reviews`, {
+                const response = await fetch(`${URL_BACKEND}/api/reviews`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${TOKEN_API}`
                     },
                     body: JSON.stringify(value)
-                }).then(res => res.json())
+                })
                 .catch(() => Swal.fire({
                     icon: "error",
                     title: "Error",
                     text: "Error, por favor inténtalo de nuevo más tarde"
                 }))
+
+                const res = await response.json()
     
+                console.log(res);
+
                 if (res.status == 'success') {
                     Swal.fire({
                         icon: "success",
                         title: "Reseña agregada exitosamente",
+                    });
+
+                } else if (response.status !== 500) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: res.message
                     });
                 } else {
                     Swal.fire({
@@ -183,7 +196,7 @@ const traerReseñas = async (sectionInfo_) => {
             `
         });
 
-        data.forEach((review, index) => {
+        data.forEach(review => {
             const iconEdit = document.getElementById(`icon-edit-${review.id}`)
             const iconDelete = document.getElementById(`icon-delete-${review.id}`)
 
@@ -195,32 +208,32 @@ const traerReseñas = async (sectionInfo_) => {
                             <div class="sweet-alert-custom">
                                 <div>
                                     <label for="swal-inputTitle-edit" class="swal2-label">Título</label>
-                                    <input id="swal-inputTitle-edit" class="swal2-input">
+                                    <input id="swal-inputTitle-edit" class="swal2-input" value="${review.title}"/>
                                 </div>
                             
                                 <div>
                                     <label for="swal-inputCountry-edit" class="swal2-label">País</label>
-                                    <input id="swal-inputCountry-edit" class="swal2-input">
+                                    <input id="swal-inputCountry-edit" class="swal2-input" value="${review.country}"/>
                                 </div>
                             
                                 <div>
                                     <label for="swal-inputImg-edit" class="swal2-label">URL imagen</label>
-                                    <input id="swal-inputImg-edit" class="swal2-input">
+                                    <input id="swal-inputImg-edit" class="swal2-input"/ value="${review.image.includes("http") ? review.image : review.image}">
                                 </div>
                             
                                 <div>
                                     <label for="swal-inputReview-edit" class="swal2-label">Reseña</label>
-                                    <input id="swal-inputReview-edit" class="swal2-input">
+                                    <input id="swal-inputReview-edit" class="swal2-input" value="${review.review}"/>
                                 </div>
             
                                 <div>
                                     <label for="swal-inputScore-edit" class="swal2-label">Calificación</label>
-                                    <input id="swal-inputScore-edit" class="swal2-input">
+                                    <input id="swal-inputScore-edit" class="swal2-input" value="${review.score}"/>
                                 </div>
             
                                 <div>
                                     <label for="swal-inputAuthor-edit" class="swal2-label">Tu nombre</label>
-                                    <input id="swal-inputAuthor-edit" class="swal2-input">
+                                    <input id="swal-inputAuthor-edit" class="swal2-input" value="${review.author}"/>
                                 </div>
                             </div>
                     
@@ -242,17 +255,19 @@ const traerReseñas = async (sectionInfo_) => {
                                 const author = inputAuthor.value
             
                                 if (!title && !country && !image && !review && !author && !score) {
-                                    return Swal.showValidationMessage({
-                                        icon: "error",
-                                        title: 'Debes editar al menos un campo'
-                                    })
+                                    return Swal.showValidationMessage('Debes editar al menos un campo')
                                 }
             
                                 if (score && (isNaN(score) || score < 0 || score > 10)) {
-                                    return Swal.showValidationMessage({
-                                        icon: "error",
-                                        title: 'El campo "Calificación" debe ser un número entre 0 y 10'
-                                    })
+                                    return Swal.showValidationMessage('El campo "Calificación" debe ser un número entre 0 y 10')
+                                }
+
+                                if ((title || author) && (title.length > 50 || author.length > 50)) {
+                                    return Swal.showValidationMessage('Los campos "Título" y "Autor" no pueden tener más de 50 caracteres')
+                                }
+            
+                                if ((image || review) && (image.length > 255 || review.length > 255)) {
+                                    return Swal.showValidationMessage('Los campos "URL imagen" y "Reseña" no pueden tener más de 255 caracteres')
                                 }
             
                                 return {
