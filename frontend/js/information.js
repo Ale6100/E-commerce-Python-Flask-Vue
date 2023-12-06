@@ -10,17 +10,17 @@ if (addReview) {
                         <label for="swal-inputTitle" class="swal2-label">Título</label>
                         <input id="swal-inputTitle" class="swal2-input">
                     </div>
-                
+
                     <div>
                         <label for="swal-inputCountry" class="swal2-label">País</label>
                         <input id="swal-inputCountry" class="swal2-input">
                     </div>
-                
+
                     <div>
                         <label for="swal-inputImg" class="swal2-label">URL imagen</label>
                         <input id="swal-inputImg" class="swal2-input">
                     </div>
-                
+
                     <div>
                         <label for="swal-inputReview" class="swal2-label">Reseña</label>
                         <input id="swal-inputReview" class="swal2-input">
@@ -36,7 +36,7 @@ if (addReview) {
                         <input id="swal-inputAuthor" class="swal2-input">
                     </div>
                 </div>
-        
+
             `,
             preConfirm: () => {
                 const inputTitle = document.getElementById("swal-inputTitle")
@@ -92,7 +92,7 @@ if (addReview) {
                     inputLabel: "Contraseña",
                     inputPlaceholder: "****"
             });
-            
+
             if (password == PASSWORD) {
                 const response = await fetch(`${URL_BACKEND}/api/reviews`, {
                     method: "POST",
@@ -109,8 +109,6 @@ if (addReview) {
                 }))
 
                 const res = await response.json()
-    
-                console.log(res);
 
                 if (res.status == 'success') {
                     Swal.fire({
@@ -131,7 +129,7 @@ if (addReview) {
                         text: "Error, por favor inténtalo de nuevo más tarde"
                     });
                 }
-    
+
                 await traerReseñas(sectionInfo)
             } else {
                 Swal.fire({
@@ -175,14 +173,14 @@ const traerReseñas = async (sectionInfo_) => {
             sectionInfo_.innerHTML += `
                 <article class="card-info">
                     <h2>${review.title} - ${review.country}</h2>
-                    
+
                     <div class="info-img">
                         <img src=${review.image.includes("http") ? review.image : `../img/comidas/${review.image}`} alt="Image review"></img>
                     </div>
-    
+
                     <div class="info-details">
                         <p class="info-review">${review.review}</p>
-    
+
                         <div class="info-more-details">
                             <p class="info-score"><span class="info-negrita">Calificación</span>: ${colorearScore(review.score)}/10</p>
                             <p class="info-date">Fecha de publicación: ${review.date}</p>
@@ -210,33 +208,33 @@ const traerReseñas = async (sectionInfo_) => {
                                     <label for="swal-inputTitle-edit" class="swal2-label">Título</label>
                                     <input id="swal-inputTitle-edit" class="swal2-input" value="${review.title}"/>
                                 </div>
-                            
+
                                 <div>
                                     <label for="swal-inputCountry-edit" class="swal2-label">País</label>
                                     <input id="swal-inputCountry-edit" class="swal2-input" value="${review.country}"/>
                                 </div>
-                            
+
                                 <div>
                                     <label for="swal-inputImg-edit" class="swal2-label">URL imagen</label>
                                     <input id="swal-inputImg-edit" class="swal2-input"/ value="${review.image.includes("http") ? review.image : review.image}">
                                 </div>
-                            
+
                                 <div>
                                     <label for="swal-inputReview-edit" class="swal2-label">Reseña</label>
                                     <input id="swal-inputReview-edit" class="swal2-input" value="${review.review}"/>
                                 </div>
-            
+
                                 <div>
                                     <label for="swal-inputScore-edit" class="swal2-label">Calificación</label>
                                     <input id="swal-inputScore-edit" class="swal2-input" value="${review.score}"/>
                                 </div>
-            
+
                                 <div>
                                     <label for="swal-inputAuthor-edit" class="swal2-label">Tu nombre</label>
                                     <input id="swal-inputAuthor-edit" class="swal2-input" value="${review.author}"/>
                                 </div>
                             </div>
-                    
+
                         `,
                         preConfirm: () => {
                             const inputTitle = document.getElementById("swal-inputTitle-edit")
@@ -245,7 +243,7 @@ const traerReseñas = async (sectionInfo_) => {
                             const inputReview = document.getElementById("swal-inputReview-edit")
                             const inputScore = document.getElementById("swal-inputScore-edit")
                             const inputAuthor = document.getElementById("swal-inputAuthor-edit")
-            
+
                             if (inputTitle instanceof HTMLInputElement && inputCountry instanceof HTMLInputElement && inputImg instanceof HTMLInputElement && inputReview instanceof HTMLInputElement && inputScore instanceof HTMLInputElement && inputAuthor instanceof HTMLInputElement) {
                                 const title = inputTitle.value
                                 const country = inputCountry.value
@@ -253,11 +251,11 @@ const traerReseñas = async (sectionInfo_) => {
                                 const review = inputReview.value
                                 const score = parseFloat(inputScore.value)
                                 const author = inputAuthor.value
-            
+
                                 if (!title && !country && !image && !review && !author && !score) {
                                     return Swal.showValidationMessage('Debes editar al menos un campo')
                                 }
-            
+
                                 if (score && (isNaN(score) || score < 0 || score > 10)) {
                                     return Swal.showValidationMessage('El campo "Calificación" debe ser un número entre 0 y 10')
                                 }
@@ -265,11 +263,11 @@ const traerReseñas = async (sectionInfo_) => {
                                 if ((title || author) && (title.length > 50 || author.length > 50)) {
                                     return Swal.showValidationMessage('Los campos "Título" y "Autor" no pueden tener más de 50 caracteres')
                                 }
-            
+
                                 if ((image || review) && (image.length > 255 || review.length > 255)) {
                                     return Swal.showValidationMessage('Los campos "URL imagen" y "Reseña" no pueden tener más de 255 caracteres')
                                 }
-            
+
                                 return {
                                     title: title || undefined,
                                     country: country || undefined,
@@ -284,7 +282,7 @@ const traerReseñas = async (sectionInfo_) => {
                         cancelButtonText: "Cancelar",
                         confirmButtonText: "Agregar",
                     });
-                    
+
                     if (value) {
                         const { value: password } = await Swal.fire({
                             icon: "info",
@@ -308,7 +306,7 @@ const traerReseñas = async (sectionInfo_) => {
                                 title: "Error",
                                 text: "Error, por favor inténtalo de nuevo más tarde"
                             }))
-                
+
                             if (res.status == 'success') {
                                 Swal.fire({
                                     icon: "success",
@@ -321,7 +319,7 @@ const traerReseñas = async (sectionInfo_) => {
                                     text: "Error, por favor inténtalo de nuevo más tarde"
                                 });
                             }
-                
+
                             await traerReseñas(sectionInfo)
                         } else {
                             Swal.fire({
@@ -330,8 +328,8 @@ const traerReseñas = async (sectionInfo_) => {
                                 text: "Contraseña incorrecta"
                             });
                         }
-                    }                                        
-                })                
+                    }
+                })
             }
 
             if (iconDelete) {
@@ -357,7 +355,7 @@ const traerReseñas = async (sectionInfo_) => {
                         .catch(() => Swal.fire({
                             icon: "error",
                             title: "Error",
-                            text: "Error, por favor inténtalo de nuevo más tarde"                            
+                            text: "Error, por favor inténtalo de nuevo más tarde"
                         }))
 
                         if (res.status == 'success') {
