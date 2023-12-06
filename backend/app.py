@@ -41,7 +41,7 @@ class Database: # Creamos una clase para iniciar la base de datos y crear las ta
                 self.conn.database = database
             else:
                 raise err
-        
+
         # Crea la tabla reviews si no existe
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS reviews (
@@ -55,7 +55,7 @@ class Database: # Creamos una clase para iniciar la base de datos y crear las ta
             date VARCHAR(50) NOT NULL
             )
             ''')
-        self.conn.commit()           
+        self.conn.commit()
 
     def close_connection(self): # Realmente no lo usamos, pero por ahora lo dejamos
         self.cursor.close()
@@ -67,11 +67,11 @@ class Reviews(): # Creamos esta clase para interactuar con la tabla reviews
     def __init__(self, db: Database): # Se asocia con la base de datos que le pasemos como parámetro
         self.db = db
 
-    def get_all(self): # Retorna todos los registros de la tabla
+    def get_all(self): # Retorna todos los registros de la tabla reviews
         self.db.cursor.execute("SELECT * FROM reviews")
         reviews = self.db.cursor.fetchall()
         return reviews
-    
+
     def insert_one(self, title: str, country: str, image: str, review: str, score: float, author: str, date: str): # Inserta un solo registro y lo retorna
         sql = "INSERT INTO reviews (title, country, image, review, score, author, date) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         values = (title, country, image, review, score, author, date)
@@ -82,16 +82,16 @@ class Reviews(): # Creamos esta clase para interactuar con la tabla reviews
         new_review = self.db.cursor.fetchone()
         return new_review
 
-    def update_one(self, id: int, incoming_values: dict[str, str | float]): # Actualiza un solo registro y lo retorna             
+    def update_one(self, id: int, incoming_values: dict[str, str | float]): # Actualiza un solo registro y lo retorna
         sql = "UPDATE reviews SET "
         values = []
-        
+
         for indice, (key, value) in enumerate(incoming_values.items()):
             sql += f"{key} = %s"
             values.append(value)
             if indice < len(incoming_values) - 1:
                 sql += ", "
-                
+
         sql += f" WHERE id = {id}"
 
         self.db.cursor.execute(sql, values)
@@ -112,12 +112,12 @@ reviews = Reviews(db)
 def authenticate_request(): # Implementamos el sistema de autenticación Bearer simple
     if (request.path == '/' and request.method == 'GET') or request.method == 'OPTIONS':
         return
-    
-    headers = request.headers.get('Authorization')
-    
-    if headers:
-        headers_list = headers.split(' ')
-        if isinstance(headers_list, list) and len(headers_list) >= 2 and headers_list[0] == 'Bearer' and headers_list[1] == os.getenv('TOKEN_API'):
+
+    auth = request.headers.get('Authorization')
+
+    if auth:
+        auth_list = auth.split(' ')
+        if isinstance(auth_list, list) and len(auth_list) >= 2 and auth_list[0] == 'Bearer' and auth_list[1] == os.getenv('TOKEN_API'):
             return
         else:
             return jsonify({ 'status': 'error', 'error': 'Forbidden'}), 403

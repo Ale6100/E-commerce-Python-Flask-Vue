@@ -28,7 +28,7 @@ DB_DATABASE = X
 
 URL_FRONTEND1 = x # URL del frontend que desees dar permisos de acceso, sin barra lateral final
 
-DEBUG = X # Coloca "" si querés que no se ejecute en modo depuración, colocar cualquier otro valor para el caso contrario
+DEBUG = X # Colocar siempre un string. Colocar "" si querés que no se ejecute en modo depuración, colocar cualquier otro valor para el caso contrario
 ```
 
 ## Despliegue 📦
