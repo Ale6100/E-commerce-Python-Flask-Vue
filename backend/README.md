@@ -1,4 +1,4 @@
-### Instalación (en windows) 🔧
+## Instalación (en windows) 🔧
 Posicionado en la carpeta [backend](./), crea un entorno virtual con el comando
 
 ```bash
@@ -28,7 +28,9 @@ DB_DATABASE = X
 
 URL_FRONTEND1 = x # URL del frontend que desees dar permisos de acceso, sin barra lateral final
 
-DEBUG = X # Colocar siempre un string. Colocar "" si querés que no se ejecute en modo depuración, colocar cualquier otro valor para el caso contrario
+TOKEN_API = # Cadena de caracteres utilizado como mecanismo de autenticación para asegurar que solamente los usuarios que presenten este token en los encabezados de sus solicitudes puedan acceder al backend. Importante: Su valor tiene que ser el mismo que el de la variable de entorno VITE_TOKEN_API que ponés en el frontend
+
+DEBUG = X # Debe ser un string. Coloca "" si querés que no se ejecute en modo depuración, colocar cualquier otro valor para el caso contrario
 ```
 
 ## Despliegue 📦

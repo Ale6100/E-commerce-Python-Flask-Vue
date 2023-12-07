@@ -14,7 +14,7 @@ variables_database = {
     'database': os.getenv('DB_DATABASE')
 }
 
-frontends_enabled = [os.getenv('URL_FRONTEND1')]
+frontends_enabled = [os.getenv('URL_FRONTEND2')]
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": frontends_enabled}}) # Permite peticiones desde los frontends de la lista
@@ -67,7 +67,7 @@ class Reviews(): # Creamos esta clase para interactuar con la tabla reviews
     def __init__(self, db: Database): # Se asocia con la base de datos que le pasemos como parámetro
         self.db = db
 
-    def get_all(self): # Retorna todos los registros de la tabla reviews
+    def get_all(self): # Retorna todos los registros de la tabla
         self.db.cursor.execute("SELECT * FROM reviews")
         reviews = self.db.cursor.fetchall()
         return reviews
@@ -113,11 +113,11 @@ def authenticate_request(): # Implementamos el sistema de autenticación Bearer 
     if (request.path == '/' and request.method == 'GET') or request.method == 'OPTIONS':
         return
 
-    auth = request.headers.get('Authorization')
+    headers = request.headers.get('Authorization')
 
-    if auth:
-        auth_list = auth.split(' ')
-        if isinstance(auth_list, list) and len(auth_list) >= 2 and auth_list[0] == 'Bearer' and auth_list[1] == os.getenv('TOKEN_API'):
+    if headers:
+        headers_list = headers.split(' ')
+        if isinstance(headers_list, list) and len(headers_list) >= 2 and headers_list[0] == 'Bearer' and headers_list[1] == os.getenv('TOKEN_API'):
             return
         else:
             return jsonify({ 'status': 'error', 'error': 'Forbidden'}), 403
@@ -151,12 +151,6 @@ def post_review():
 
         if not title or not country or not image or not review or not isinstance(score, (int, float)) or not author:
             return jsonify({'status': 'error', 'message': 'Missing data'}), 400
-
-        if len(title) > 50 or len(author) > 50:
-            return jsonify({'status': 'error', 'message': 'Author and title must not exceed 50 characters'}), 400
-
-        if len(image) > 255 or len(review) > 255:
-            return jsonify({'status': 'error', 'message': 'Image and review must not exceed 255 characters'}), 400
 
         new_review = reviews.insert_one(title, country, image, review, score, author, date)
         return jsonify({'status': 'success', 'message': 'Review added', 'data': new_review}), 201
