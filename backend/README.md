@@ -30,7 +30,7 @@ URL_FRONTEND1 = x # URL del frontend que desees dar permisos de acceso, sin barr
 
 TOKEN_API = # Cadena de caracteres utilizado como mecanismo de autenticación para asegurar que solamente los usuarios que presenten este token en los encabezados de sus solicitudes puedan acceder al backend. Importante: Su valor tiene que ser el mismo que el de la variable de entorno VITE_TOKEN_API que ponés en el frontend
 
-DEBUG = X # Coloca "" si querés que no se ejecute en modo depuración, colocar cualquier otro valor para el caso contrario
+DEBUG = X # Debe ser un string. Coloca "" si querés que no se ejecute en modo depuración, colocar cualquier otro valor para el caso contrario
 ```
 
 ## Despliegue 📦

@@ -24,11 +24,10 @@ const getReviews = async () => {
 }
 
 onMounted(() => {
-    console.log("Information montado");
     getReviews()
 })
 
-const addReview = async () => {    
+const addReview = async () => {
     const { value } = await Swal.fire({
         title: "Agregar una reseña",
         html: `
@@ -37,17 +36,17 @@ const addReview = async () => {
                     <label for="swal-inputTitle" class="swal2-label">Título</label>
                     <input id="swal-inputTitle" class="swal2-input">
                 </div>
-            
+
                 <div>
                     <label for="swal-inputCountry" class="swal2-label">País</label>
                     <input id="swal-inputCountry" class="swal2-input">
                 </div>
-            
+
                 <div>
                     <label for="swal-inputImg" class="swal2-label">URL imagen</label>
                     <input id="swal-inputImg" class="swal2-input">
                 </div>
-            
+
                 <div>
                     <label for="swal-inputReview" class="swal2-label">Reseña</label>
                     <input id="swal-inputReview" class="swal2-input">
@@ -63,7 +62,7 @@ const addReview = async () => {
                     <input id="swal-inputAuthor" class="swal2-input">
                 </div>
             </div>
-    
+
         `,
         preConfirm: () => {
             const inputTitle = document.getElementById("swal-inputTitle")
@@ -82,11 +81,19 @@ const addReview = async () => {
                 const author = inputAuthor.value
 
                 if (!title || !country || !image || !review || !author) {
-                    return Swal.showValidationMessage("Por favor llena todos los campos")
+                        return Swal.showValidationMessage("Por favor llena todos los campos")
                 }
 
                 if (isNaN(score) || score < 0 || score > 10) {
                     return Swal.showValidationMessage('El campo "Calificación" debe ser un número entre 0 y 10')
+                }
+
+                if (title.length > 50 || author.length > 50) {
+                    return Swal.showValidationMessage('Los campos "Título" y "Autor" no pueden tener más de 50 caracteres')
+                }
+
+                if (image.length > 255 || review.length > 255) {
+                    return Swal.showValidationMessage('Los campos "URL imagen" y "Reseña" no pueden tener más de 255 caracteres')
                 }
 
                 return {
@@ -111,7 +118,7 @@ const addReview = async () => {
                 inputLabel: "Contraseña",
                 inputPlaceholder: "****"
         });
-        
+
         if (password == import.meta.env.VITE_PASSWORD) {
             const res = await fetch(`${import.meta.env.VITE_URL_BACKEND}/api/reviews`, {
                 method: "POST",
@@ -151,39 +158,39 @@ const addReview = async () => {
     }
 }
 
-const editReview = async (id: number) => {
+const editReview = async (review: TypeReview) => {
     const { value } = await Swal.fire({
         title: "Editar reseña",
         html: `
             <div class="sweet-alert-custom flex flex-col">
                 <div>
                     <label for="swal-inputTitle-edit" class="swal2-label">Título</label>
-                    <input id="swal-inputTitle-edit" class="swal2-input">
+                    <input id="swal-inputTitle-edit" class="swal2-input" value="${review.title}"">
                 </div>
-            
+
                 <div>
                     <label for="swal-inputCountry-edit" class="swal2-label">País</label>
-                    <input id="swal-inputCountry-edit" class="swal2-input">
+                    <input id="swal-inputCountry-edit" class="swal2-input" value="${review.country}">
                 </div>
-            
+
                 <div>
                     <label for="swal-inputImg-edit" class="swal2-label">URL imagen</label>
-                    <input id="swal-inputImg-edit" class="swal2-input">
+                    <input id="swal-inputImg-edit" class="swal2-input" value="${review.image}">
                 </div>
-            
+
                 <div>
                     <label for="swal-inputReview-edit" class="swal2-label">Reseña</label>
-                    <input id="swal-inputReview-edit" class="swal2-input">
+                    <input id="swal-inputReview-edit" class="swal2-input" value="${review.review}">
                 </div>
 
                 <div>
                     <label for="swal-inputScore-edit" class="swal2-label">Calificación</label>
-                    <input id="swal-inputScore-edit" class="swal2-input">
+                    <input id="swal-inputScore-edit" class="swal2-input" value="${review.score}">
                 </div>
 
                 <div>
                     <label for="swal-inputAuthor-edit" class="swal2-label">Tu nombre</label>
-                    <input id="swal-inputAuthor-edit" class="swal2-input">
+                    <input id="swal-inputAuthor-edit" class="swal2-input" value="${review.author}">
                 </div>
             </div>
         `,
@@ -203,12 +210,20 @@ const editReview = async (id: number) => {
                 const score = parseFloat(inputScore.value)
                 const author = inputAuthor.value
 
-                if (!title && !country && !image && !review && !author && !score) {
-                    return Swal.showValidationMessage('Debes editar al menos un campo')
+                if (!title || !country || !image || !review || !author) {
+                        return Swal.showValidationMessage("Por favor llena todos los campos")
                 }
 
-                if (score && (isNaN(score) || score < 0 || score > 10)) {
+                if (isNaN(score) || score < 0 || score > 10) {
                     return Swal.showValidationMessage('El campo "Calificación" debe ser un número entre 0 y 10')
+                }
+
+                if (title.length > 50 || author.length > 50) {
+                    return Swal.showValidationMessage('Los campos "Título" y "Autor" no pueden tener más de 50 caracteres')
+                }
+
+                if (image.length > 255 || review.length > 255) {
+                    return Swal.showValidationMessage('Los campos "URL imagen" y "Reseña" no pueden tener más de 255 caracteres')
                 }
 
                 return {
@@ -236,7 +251,7 @@ const editReview = async (id: number) => {
         });
 
         if (password == import.meta.env.VITE_PASSWORD) {
-            const res = await fetch(`${import.meta.env.VITE_URL_BACKEND}/api/reviews/${id}`, {
+            const res = await fetch(`${import.meta.env.VITE_URL_BACKEND}/api/reviews/${review.id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -256,11 +271,11 @@ const editReview = async (id: number) => {
                     title: "Reseña editada exitosamente"
                 });
 
-                reviews.value = reviews.value.map(review => {
-                    if (review.id == id) {
+                reviews.value = reviews.value.map(review_ => {
+                    if (review_.id == review.id) {
                         return res.data
                     } else {
-                        return review
+                        return review_
                     }
                 })
             } else {
@@ -302,7 +317,7 @@ const deleteReview = async (id: number) => {
         .catch(() => Swal.fire({
             icon: "error",
             title: "Error",
-            text: "Error, por favor inténtalo de nuevo más tarde"                            
+            text: "Error, por favor inténtalo de nuevo más tarde"
         }))
 
         if (res.status == 'success') {
@@ -310,7 +325,7 @@ const deleteReview = async (id: number) => {
                 icon: "success",
                 title: "Reseña eliminada exitosamente"
             });
-            
+
             reviews.value = reviews.value.filter(review => review.id != id)
         }
     } else if (!dismiss) {
@@ -348,8 +363,8 @@ const deleteReview = async (id: number) => {
     </div>
 
     <div v-else v-for="(review, index) in reviews" :key="index" class="max-w-3xl my-5">
-        <article class="relative p-1 mb-7 flex flex-col items-center w-96 max-md:w-80 border border-black rounded-sm">
-            <h2 class="text-xl">{{ review.title }} - {{ review.country }}</h2>
+        <article class="relative p-1 mb-7 flex flex-col items-center max-md:w-72 border border-black rounded-sm">
+            <h2 class="text-xl font-semibold">{{ review.title }} - {{ review.country }}</h2>
 
             <div class="my-2 max-w-sm max-h-96">
                 <img class="w-full h-full max-w-sm max-h-96 rounded-sm" :src="review.image.includes('http') ? review.image : `../img/comidas/${review.image}`" alt="Image review">
@@ -365,7 +380,7 @@ const deleteReview = async (id: number) => {
                 </div>
             </div>
 
-            <i @click="() => editReview(review.id)" class="fa-solid fa-pen-to-square absolute top-2 right-2 cursor-pointer"></i>
+            <i @click="() => editReview(review)" class="fa-solid fa-pen-to-square absolute top-2 right-2 cursor-pointer"></i>
             <i @click="() => deleteReview(review.id)" class="fa-solid fa-trash absolute top-2 right-8 cursor-pointer"></i>
         </article>
     </div>
